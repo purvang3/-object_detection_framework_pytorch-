@@ -292,8 +292,8 @@ class Normalize(object):
         h, w = image.shape[-2:]
         if "boxes" in target:
             boxes = target["boxes"]
-            # if 'masks' in target.keys():  # only for coco dataset
-            #     boxes = xy_to_cxcy(boxes)
+            if 'masks' in target.keys():  # only for coco dataset
+                boxes = xy_to_cxcy(boxes)
             boxes = boxes / torch.tensor([w, h, w, h], dtype=torch.float32)
             target["boxes"] = boxes
         return image, target
@@ -304,17 +304,6 @@ class Compose(object):
         self.transforms = transforms
 
     def __call__(self, image, target):
-        # from PIL import Image, ImageFont, ImageDraw, ImageEnhance
-        # img_pil = image
-        # target_im = target
-        # t_boxes_im = target_im['boxes']
-        # t_boxes_im = t_boxes_im.numpy()
-        # for b in t_boxes_im:
-        #     draw = ImageDraw.Draw(img_pil)
-        #     shape = [(b[0], b[1]), (b[2], b[3])]
-        #     draw.rectangle(shape, outline="red", width=3)
-        # img_pil.save("/home/ubuntu/models/inception_v3/a.jpg", "JPEG")
-
         for t in self.transforms:
             image, target = t(image, target)
         return image, target
