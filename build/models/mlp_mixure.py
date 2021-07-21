@@ -384,9 +384,6 @@ class Model(nn.Module):
 
             # Concatenate into single tensors
             image_boxes = torch.cat(image_boxes, dim=0)  # (n_objects, 4)
-            # TODO: Turn off if bbox in cxcywh format
-            # if self.args.dataset == "coco":
-            #     image_boxes = image_boxes * torch.tensor([self.args.img_width, self.args.img_height, self.args.img_width, self.args.img_height], dtype=torch.float32).to(device)
 
             image_labels = torch.cat(image_labels, dim=0)  # (n_objects)
             image_scores = torch.cat(image_scores, dim=0)  # (n_objects)
